@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+	<bean id="dataSourceWebStore" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:mysql://s156.eatj.com:3307/glawi?autoReconnect=true</value>
+		</property>
+		<property name="username">
+			<value>glawi</value>
+		</property>
+		<property name="password">
+			<value>zaza29</value>
+		</property>
+		<!-- Le nombre initial de connexions qui sont creees quand le pool demarre -->
+		<property name="initialSize">
+			<value>5</value>
+		</property>
+		<!--
+		Le nombre maximum de connexions actives qui sont allouees a ce pool a un
+		instant donne. Mettre une valeur negative pour un nombre maximum illimite
+		 -->
+		<property name="maxActive">
+			<value>15</value>
+		</property>
+		<!-- 
+		Le temps maximum en millisecondes que le pool attendra (quand aucune
+		connexion n'est disponible) qu'une connexion soit retournee avant de
+		generer une exception. Mettre la valeur a -1 pour un temps illimite.
+		 -->
+		<property name="maxWait">
+			<value>3000</value>
+		</property>
+	</bean>
+</beans>
