@@ -1,6 +1,8 @@
-Réalisé par © Giwi Soft 2009
+=Agreuh Gator=
 
-Agreuh Gator indexe toutes les heures les flux RSS de son annuaire et vous propose d'effectuer des recherches par mots clef. Vous pourrez récupérer le flux RSS de ces résultats de recherches.
+Réalisé par [http://giwi.free.fr © Giwi] Soft 2009
+
+[http://agreuhgator.ath.cx Agreuh Gator] indexe toutes les heures les flux RSS de son annuaire et vous propose d'effectuer des recherches par mots clef. Vous pourrez récupérer le flux RSS de ces résultats de recherches.
 
 Agreuh Gator utilise :
 
