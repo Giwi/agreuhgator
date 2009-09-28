@@ -6,8 +6,8 @@ Réalisé par [http://giwi.free.fr © Giwi] Soft 2009
 
 Agreuh Gator utilise :
 
-    * Apache Lucene
-    * Quartz
-    * Rome
-    * JQuery
-    * FCKEditor
+    * [http://lucene.apache.org Apache Lucene]
+    * [http://www.opensymphony.com/quartz/ Quartz]
+    * [https://rome.dev.java.net Rome]
+    * [http://jquery.com JQuery]
+    * [http://java.fckeditor.net FCKEditor]
