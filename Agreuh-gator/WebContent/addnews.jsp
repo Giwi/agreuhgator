@@ -5,9 +5,9 @@
 <%@page import="java.util.List"%>
 <%@page import="fr.giwi.agreugator.blog.bean.BlogEntry"%>
 <%@page import="fr.giwi.agreugator.blog.dao.BlogEntryManager"%>
-<%@page import="net.fckeditor.FCKeditor"%><html>
+<%@page import="net.fckeditor.FCKeditor"%>
+<%@page import="fr.giwi.agreugator.constantes.Constantes"%><html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title><%=application.getInitParameter("title")%> : Ajout d'une niouze</title>
 <%
 if(session.getAttribute("user") == null) {
@@ -15,11 +15,9 @@ if(session.getAttribute("user") == null) {
 	<jsp:forward page="index.jsp"></jsp:forward>
 	<%
 }
-%>
-<link href="css/default.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="css/pagination.css" />
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/jquery.pagination.js"></script>
+%><jsp:include page="common/meta.jsp" />
+
+
 <script type="text/javascript">
 function FCKeditor_OnComplete(editorInstance) {
 	window.status = editorInstance.Description;
@@ -61,37 +59,18 @@ $(document).ready(function(){
 });
 </script>
 </head>
-<body><jsp:include page="header.jsp" />
-<div id="page"><!-- start content -->
-<div id="content">
-
-
-<table width="100%" border="0" cellpadding="5">
-	<%
-		String erreoMess = (String) request.getAttribute("erreoMess");
-		if (erreoMess != null) {
-	%>
-	<tr>
-		<td class="errMess">!! <%=erreoMess%> !!</td>
-	</tr>
-	<%
-		}
-	%>
-	<%
-		String okMess = (String) request.getAttribute("okMess");
-		if (okMess != null) {
-	%>
-	<tr>
-		<td class="okMess"><%=okMess%></td>
-	</tr>
-	<%
-		}
-	%>
-</table>
-				<div class="post">
-					<h2 class="title">Les Niouzes</h2>
-					
-					<div class="entry">
+<body>
+<div id="main_container">
+<jsp:include page="common/header.jsp" />
+	<div id="main_content">
+    	<div id="left_content">
+			<jsp:include page="common/sidebar.jsp" />
+		</div><!--end of left content-->
+		
+    	<div id="right_content">
+	<jsp:include page="common/messages.jsp" />
+			<div class="products_box">
+					<h3 >Les Niouzes</h3>
 			<div id="Pagination" class="pagination"></div>
 		<br style="clear:both;" />
 		<div id="Searchresult">
@@ -100,7 +79,7 @@ $(document).ready(function(){
 		<div id="hiddenresult" style="display:none;">
 		<%
 		BlogEntryManager bem = new BlogEntryManager();
-		List<BlogEntry> list = bem.getBlogEntries(-1);
+		List<BlogEntry> list = bem.getBlogEntries(0, Constantes.TYPE_TOUT);
 		for(BlogEntry be : list) {
 		%><div class="result"><p>
 		<a href="<%=request.getContextPath()%>/editNews?id=<%=be.getId() %>" ><%= be.getTitle() %></a>
@@ -109,21 +88,22 @@ $(document).ready(function(){
 		<%  } %>
 		</div>
 		</div>
-</div>
-				<div class="post">
-					<h2 class="title">Ajout d'une Niouze</h2>
-					
-					<div class="entry">
-<form name="search" action="<%=request.getContextPath()%>/addNews"
-	method="post">
+<div class="products_box">
+	<h3 class="title">Ajout / modif d'une Niouze</h3>
+<form name="search" action="<%=request.getContextPath()%>/addNews"	method="post">
 <p>Titre : <input name="title" type="text" /> <br />
-R&eacute;sum&eacute; : 
+Type : <select name="type">
+<option value="<%= Constantes.TYPE_ABOUT %>" >About</option>
+<option value="<%= Constantes.TYPE_BLOG %>" >Blog</option>
+<option value="<%= Constantes.TYPE_CHANGE_LOG %>" >ChangeLog</option>
+</select> </p>
+<p>R&eacute;sum&eacute; : 
 <%
 	FCKeditor resume = new FCKeditor(request, "resume");
 	resume.setValue("");
 	out.println(resume);
-	%> <br />
-	
+	%></p>
+	<p>
 Contenu : <%
 	FCKeditor content = new FCKeditor(request, "content");
 	content.setValue("");
@@ -132,11 +112,11 @@ Contenu : <%
 </p>
 <p><input type="submit" value="Ajout" /></p>
 </form>
-</div></div>
-
-
-</div></div>
-<jsp:include page="sidebar.jsp" />
-<jsp:include page="footer.jsp"></jsp:include>
+</div><div style=" clear:both;"></div></div>
+    <!--end of right content-->
+    </div>
+    
+<jsp:include page="common/footer.jsp" />
+</div>
 </body>
 </html>

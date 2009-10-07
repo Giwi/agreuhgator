@@ -1,9 +1,14 @@
 package fr.giwi.agreugator.blog.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Blog {
+public class Blog implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1016493522058329183L;
 	private String title;
 	private List<BlogEntry> blogEntries;
 

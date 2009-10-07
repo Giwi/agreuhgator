@@ -15,12 +15,8 @@
 	String query = (String) request.getAttribute("queryString");
 	Iterator<Hit> hitIt = hits.iterator();
 %>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title><%=application.getInitParameter("title")%> : Résultats</title>
-<link href="css/default.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="css/pagination.css" />
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/jquery.pagination.js"></script>
+<jsp:include page="common/meta.jsp" />
 <script type="text/javascript">
 function pageselectCallback(page_index, jq){
     // Get number of elements per pagionation page from form
@@ -60,7 +56,7 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-<jsp:include page="header.jsp" />
+<jsp:include page="common/header.jsp" />
 <div id="page"><!-- start content -->
 	<div id="content">
 		<h2>
@@ -108,8 +104,8 @@ $(document).ready(function(){
 		<%	} %>
 		</div>
 	</div>
-	<jsp:include page="sidebar.jsp" />
+	<jsp:include page="common/sidebar.jsp" />
 </div>
-<jsp:include page="footer.jsp" />
+<jsp:include page="common/footer.jsp" />
 </body>
 </html>

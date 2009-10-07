@@ -57,6 +57,16 @@
     <servlet-name>EditNews</servlet-name>
     <url-pattern>/editNews</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>EditRss</display-name>
+    <servlet-name>EditRss</servlet-name>
+    <servlet-class>fr.giwi.agreugator.servlet.EditRss</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EditRss</servlet-name>
+    <url-pattern>/editRss</url-pattern>
+  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
     <url-pattern>/login</url-pattern>
@@ -83,6 +93,16 @@
   </servlet-mapping>
   <servlet>
     <description></description>
+    <display-name>DelRss</display-name>
+    <servlet-name>DelRss</servlet-name>
+    <servlet-class>fr.giwi.agreugator.servlet.DelRss</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DelRss</servlet-name>
+    <url-pattern>/delRss</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
     <display-name>ShowNews</display-name>
     <servlet-name>ShowNews</servlet-name>
     <servlet-class>fr.giwi.agreugator.servlet.ShowNews</servlet-class>
@@ -90,5 +110,15 @@
   <servlet-mapping>
     <servlet-name>ShowNews</servlet-name>
     <url-pattern>/showNews</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>BlogRss</display-name>
+    <servlet-name>BlogRss</servlet-name>
+    <servlet-class>fr.giwi.agreugator.servlet.BlogRss</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BlogRss</servlet-name>
+    <url-pattern>/blogRss</url-pattern>
   </servlet-mapping>
 </web-app>

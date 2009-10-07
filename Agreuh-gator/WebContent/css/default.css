@@ -133,7 +133,11 @@ img.right {
 #header h2 a {
 	color: #333333;
 }
-
+#header #links {
+	float: right;
+	width: 300px;
+	padding: 15px 0 0 0;
+}
 /* Search */
 
 #search {
@@ -207,6 +211,7 @@ img.right {
 	background: url(../images/img03.jpg) no-repeat;
 }
 
+
 #sidebar li ul {
 	line-height: 2em;
 }
@@ -227,6 +232,12 @@ img.right {
 
 #sidebar a {
 	border: none;
+}
+#sidebar li h2.rss {
+	margin-left:-32px;
+	padding-left: 34px;
+	height:32px;
+	background: url(../images/rss2.png) no-repeat 0px -1px;
 }
 
 /* Footer */

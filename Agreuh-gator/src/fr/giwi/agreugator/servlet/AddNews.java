@@ -34,9 +34,11 @@ public class AddNews extends HttpServlet {
 		final String title = request.getParameter("title");
 		final String resume = request.getParameter("resume");
 		final String content = request.getParameter("content");
+		final String type = request.getParameter("type");
 		request.setAttribute("title", title);
 		request.setAttribute("resume", resume);
 		request.setAttribute("content", content);
+		request.setAttribute("type", type);
 		if (StringUtils.isBlank(title) || StringUtils.isBlank(content)) {
 			request.setAttribute("erreoMess", "Il vous manque des infos !!!");
 			request.setAttribute("error", true);
@@ -50,8 +52,10 @@ public class AddNews extends HttpServlet {
 		be.setResume(resume == null ? "" : resume);
 		be.setDate(new Date());
 		be.setContent(content);
+		be.setType(Integer.parseInt(type));
 		try {
 			bem.addBlogEntry(be);
+			request.setAttribute("okMess", "Niouze enregistrée : " + be.getTitle());
 		} catch (final SQLException e) {
 			request.setAttribute("erreoMess", "Erreur de connexion à la base");
 			final RequestDispatcher rd = request.getRequestDispatcher("addnews.jsp");

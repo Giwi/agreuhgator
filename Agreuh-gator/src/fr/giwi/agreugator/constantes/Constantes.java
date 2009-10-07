@@ -19,4 +19,23 @@ public class Constantes {
 	public static final String[] ALL_FIELDS = { Title, Description, Author, ItemDesc, ItemTitle };
 	public static final String CONF_BDD = "AgreuhGatorConfBDD.xml";
 	public final static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.FRANCE);
+
+	public static final int TYPE_TOUT = 0;
+	public static final int TYPE_CHANGE_LOG = 1;
+	public static final int TYPE_BLOG = 2;
+	public static final int TYPE_ABOUT = 3;
+
+	public static String getType(final int i) {
+		switch (i) {
+		case 1:
+			return "Change Log";
+		case 2:
+			return "Blog";
+		case 3:
+			return "A propos";
+		default:
+			return "";
+		}
+	}
+
 }

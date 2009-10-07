@@ -72,15 +72,18 @@ public class EditNews extends HttpServlet {
 		final String resume = request.getParameter("resume");
 		final String content = request.getParameter("content");
 		final String id = request.getParameter("id");
+		final String type = request.getParameter("type");
 		request.setAttribute("title", title);
 		request.setAttribute("resume", resume);
 		request.setAttribute("content", content);
+		request.setAttribute("type", type);
 		final BlogEntry be = new BlogEntry();
 		be.setId(Integer.parseInt(id));
 		be.setTitle(title == null ? "" : title);
 		be.setResume(resume == null ? "" : resume);
 		be.setDate(new Date());
 		be.setContent(content == null ? "" : content);
+		be.setType(Integer.parseInt(type));
 		request.setAttribute("blogentry", be);
 		if (StringUtils.isBlank(title) || StringUtils.isBlank(content)) {
 			request.setAttribute("erreoMess", "Il vous manque des infos !!!");
@@ -93,13 +96,14 @@ public class EditNews extends HttpServlet {
 
 		try {
 			bem.updateBlogEntry(be, Integer.parseInt(id));
+			request.setAttribute("okMess", "Niouze enregistrée : " + be.getTitle());
 		} catch (final SQLException e) {
 			request.setAttribute("erreoMess", "Erreur de connexion à la base");
 			final RequestDispatcher rd = request.getRequestDispatcher("editnews.jsp");
 			rd.forward(request, response);
 			return;
 		}
-		final RequestDispatcher rd = request.getRequestDispatcher("addnews.jsp");
+		final RequestDispatcher rd = request.getRequestDispatcher("editnews.jsp");
 		rd.forward(request, response);
 		return;
 	}

@@ -7,10 +7,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title><%= application.getInitParameter("title") %> : Erreur !!</title><link href="css/default.css" rel="stylesheet" type="text/css">
 </head>
-<body><jsp:include page="header.jsp" />
+<body><jsp:include page="common/header.jsp" />
 <div id="page">
 	<!-- start content -->
 	<div id="content"><%=StringHelper.escapeHTML((String)request.getAttribute("ErrorMess"))%></div></div>
-<jsp:include page="footer.jsp"></jsp:include>
+<jsp:include page="common/footer.jsp"></jsp:include>
 </body>
 </html>

@@ -1,11 +1,25 @@
 package fr.giwi.agreugator.blog.bean;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class BlogEntry {
+public class BlogEntry implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2452174581828669426L;
 	private String title;
 	private Date date;
 	private int id;
+	private int type;
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(final int type) {
+		this.type = type;
+	}
 
 	public int getId() {
 		return id;

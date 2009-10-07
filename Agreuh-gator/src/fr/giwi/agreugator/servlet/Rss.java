@@ -43,11 +43,7 @@ public class Rss extends HttpServlet {
 	 */
 	private static final long serialVersionUID = -9158044188360033433L;
 	private static final String DEFAULT_FEED_TYPE = "rss_2.0";
-	private static final String FEED_TYPE = "type";
 	private static final String MIME_TYPE = "application/xml; charset=UTF-8";
-	private static final String COULD_NOT_GENERATE_FEED_ERROR = "Could not generate feed";
-
-	private String _defaultFeedType;
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse

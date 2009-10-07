@@ -64,7 +64,7 @@ public class Login extends HttpServlet {
 			return;
 		}
 		request.getSession().setAttribute("user", bu);
-		final RequestDispatcher rd = request.getRequestDispatcher("admin.jsp");
+		final RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
 		rd.forward(request, response);
 		return;
 
