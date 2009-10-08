@@ -70,7 +70,11 @@ $(document).ready(function(){
     	<div id="right_content">
 	<jsp:include page="common/messages.jsp" />
 			<div class="products_box">
-					<h3 >Les Niouzes</h3>
+					<h2>Les Niouzes</h2>
+		<a title="Ajout de news" 
+		href="#TB_inline?height=600&width=600&inlineId=addNewsBox&modal=false" 
+		class="thickbox" ><img alt="Ajout de news" src="images/news_subscribe.png" border="0" /></a>
+		<br /><br />
 			<div id="Pagination" class="pagination"></div>
 		<br style="clear:both;" />
 		<div id="Searchresult">
@@ -82,14 +86,18 @@ $(document).ready(function(){
 		List<BlogEntry> list = bem.getBlogEntries(0, Constantes.TYPE_TOUT);
 		for(BlogEntry be : list) {
 		%><div class="result"><p>
+		<a href="<%=request.getContextPath()%>/delNews?id=<%=be.getId() %>">
+		<img src="images/delete.png" border="0" alt="Delete" align="absmiddle" /></a>
+		&nbsp;
 		<a href="<%=request.getContextPath()%>/editNews?id=<%=be.getId() %>" ><%= be.getTitle() %></a>
-		<a href="<%=request.getContextPath()%>/delNews?id=<%=be.getId() %>"><img src="images/delete.png" border="0" alt="Delete" /></a>
 		</p></div>
 		<%  } %>
 		</div>
 		</div>
-<div class="products_box">
-	<h3 class="title">Ajout / modif d'une Niouze</h3>
+
+		
+<div id="addNewsBox" class="products_box" style="visibility:hidden; position:absolute;" >
+	<h2 class="title">Ajout / modif d'une Niouze</h2>
 <form name="search" action="<%=request.getContextPath()%>/addNews"	method="post">
 <p>Titre : <input name="title" type="text" /> <br />
 Type : <select name="type">
@@ -112,7 +120,7 @@ Contenu : <%
 </p>
 <p><input type="submit" value="Ajout" /></p>
 </form>
-</div><div style=" clear:both;"></div></div>
+</div><div style="clear:both;"></div></div>
     <!--end of right content-->
     </div>
     

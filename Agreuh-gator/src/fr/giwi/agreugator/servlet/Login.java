@@ -38,7 +38,7 @@ public class Login extends HttpServlet {
 		if (StringUtils.isBlank(login) || StringUtils.isBlank(mdp)) {
 			request.setAttribute("erreoMess", "Il vous manque des infos !!!");
 			request.setAttribute("error", true);
-			final RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+			final RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
 			rd.forward(request, response);
 			return;
 		}
@@ -47,19 +47,19 @@ public class Login extends HttpServlet {
 			bu = um.getUser(login);
 		} catch (final SQLException e) {
 			request.setAttribute("erreoMess", "Erreur de connexion à la base");
-			final RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+			final RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
 			rd.forward(request, response);
 			return;
 		}
 		if (bu == null) {
 			request.setAttribute("erreoMess", "Le login n'existe pas");
-			final RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+			final RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
 			rd.forward(request, response);
 			return;
 		}
 		if (!mdp.equals(bu.getPassword())) {
 			request.setAttribute("erreoMess", "Le mot de passe n'est pas bon");
-			final RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+			final RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
 			rd.forward(request, response);
 			return;
 		}

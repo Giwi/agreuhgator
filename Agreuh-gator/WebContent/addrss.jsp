@@ -2,7 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
-<%@page import="fr.giwi.agreugator.blog.dao.RssEntryManager"%>
+<%@page import="fr.giwi.agreugator.rss.dao.RssEntryManager"%>
 <%@page import="java.util.List"%>
 <%@page import="fr.giwi.agreugator.rss.bean.RSSEntry"%><html>
 <head>
@@ -67,7 +67,11 @@ $(document).ready(function(){
     	<div id="right_content">
 <jsp:include page="common/messages.jsp" />
 <div class="products_box">
-	<h3 >Les flux RSS</h3>
+	<h2>Les flux RSS</h2>
+	<a title="Ajout de news" 
+		href="#TB_inline?height=100&width=450&inlineId=addNewsBox&modal=false" 
+		class="thickbox" ><img alt="Ajout de rss" src="images/rss_add.png" border="0" /></a>
+		<br /><br />
 	<div id="Pagination" class="pagination"></div>
 	<br style="clear:both;" />
 	<div id="Searchresult">This content will be replaced when pagination inits.</div>
@@ -78,27 +82,26 @@ $(document).ready(function(){
 		for(RSSEntry re : list) {
 		%><div class="result">
 			<p>
+			<a href="<%=request.getContextPath()%>/delRss?id=<%=re.getId() %>">
+			<img src="images/delete.png" border="0" alt="Delete" align="absmiddle" /></a>
+			&nbsp;
 				<a href="<%=request.getContextPath()%>/editRss?id=<%=re.getId() %>" ><%= re.getTitle() %></a>
-				<a href="<%=request.getContextPath()%>/delRss?id=<%=re.getId() %>"><img src="images/delete.png" border="0" alt="Delete" /></a>
 			</p>
 		</div>
 		<%  } %>
 	</div>
 </div>
-<div class="result">
-	<div class="post">
+<div id="addNewsBox" class="products_box" style="visibility:hidden; position:absolute;" >
 		<h2 class="title">Ajout de nouveaux flux</h2>
-		<div class="entry">
 		<form name="search" action="<%=request.getContextPath()%>/addRss" method="post">
 			<p>RSS à ajouter : <input name="url" size="44" /> 
 			<input type="submit" value="Ajout" /></p>
-		</form>
-		</div>
-	</div>
+	</form>
+</div><div style="clear:both;"></div></div>
+    <!--end of right content-->
+    </div>
+    
+<jsp:include page="common/footer.jsp" />
 </div>
-</div>
-<jsp:include page="common/sidebar.jsp" />
-</div>
-<jsp:include page="common/footer.jsp"></jsp:include>
 </body>
 </html>

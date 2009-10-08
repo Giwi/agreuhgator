@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 
-import fr.giwi.agreugator.blog.dao.RssEntryManager;
+import fr.giwi.agreugator.rss.dao.RssEntryManager;
 
 /**
  * Servlet implementation class DelNews

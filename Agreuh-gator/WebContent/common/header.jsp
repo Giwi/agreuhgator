@@ -35,7 +35,11 @@
 		<%
 		} else {
 		%>
-		<ul><li><a title="login" href="#TB_inline?height=130&width=270&inlineId=loginBox&modal=false" class="thickbox" >Connexion</a></li></ul>
+		<ul>
+			<li>
+				<a title="login" href="#TB_inline?height=130&width=270&inlineId=loginBox&modal=false" class="thickbox" >Connexion</a>
+			</li>
+		</ul>
 		<% } %>
 	</div>
 </div><!--end of green box--><div id="loginBox" style="display:none;"  ><div class="login_box"><jsp:include page="../login.jsp"></jsp:include></div></div>

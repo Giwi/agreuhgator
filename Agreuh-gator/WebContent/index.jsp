@@ -5,13 +5,14 @@
 <%@page import="java.util.List"%>
 <%@page import="fr.giwi.agreugator.blog.bean.BlogEntry"%>
 <%@page import="fr.giwi.agreugator.constantes.Constantes"%>
+<%@page import="fr.giwi.agreugator.rss.dao.RssEntryManager"%>
 
 <%
 BlogEntryManager bem = new BlogEntryManager();
 %>
 
 
-<%@page import="fr.giwi.agreugator.blog.dao.RssEntryManager"%><html>
+<html>
 <head>
 <jsp:include page="common/meta.jsp" />
 

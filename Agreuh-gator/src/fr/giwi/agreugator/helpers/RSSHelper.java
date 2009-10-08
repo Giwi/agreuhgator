@@ -16,9 +16,9 @@ import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
 
-import fr.giwi.agreugator.blog.dao.RssEntryManager;
 import fr.giwi.agreugator.constantes.Constantes;
 import fr.giwi.agreugator.rss.bean.RSSEntry;
+import fr.giwi.agreugator.rss.dao.RssEntryManager;
 import fr.giwi.agreugator.wrapper.RssDocWrapper;
 
 public class RSSHelper {

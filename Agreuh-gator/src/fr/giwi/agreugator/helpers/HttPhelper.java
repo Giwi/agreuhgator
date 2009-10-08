@@ -26,8 +26,10 @@ public class HttPhelper {
 			HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
 			HttpProtocolParams.setContentCharset(params, "UTF-8");
 			HttpProtocolParams.setUseExpectContinue(params, true);
+
 			final ClientConnectionManager connMgr = new ThreadSafeClientConnManager(params, supportedSchemes);
 			httpclient = new DefaultHttpClient(connMgr, params);
+
 		}
 		return httpclient;
 	}

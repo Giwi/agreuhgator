@@ -1,4 +1,4 @@
-<div class="search_title"><img src="images/lock.png" align="top" /> Connexion</div>
+<div class="search_title">Connexion</div>
 <form name="login" action="<%=request.getContextPath()%>/login"	method="post">
 <table width="100%" border="0" cellpadding="0" class="loginForm">
 	<tr>
@@ -15,4 +15,3 @@
 	</tr>
 </table>
 </form>
-

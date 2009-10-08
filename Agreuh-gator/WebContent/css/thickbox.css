@@ -14,6 +14,7 @@
 #TB_secondLine {
 	font: 10px Arial, Helvetica, sans-serif;
 	color:#666666;
+	font-weight: bold;
 }
 
 #TB_window a:link {color: #666666;}
@@ -49,7 +50,7 @@
 
 #TB_window {
 	position: fixed;
-	background: #ffffff;
+	background-color: #d4f0ba;
 	z-index: 102;
 	color:#000000;
 	display:none;
@@ -101,6 +102,7 @@ margin-top: expression(0 - parseInt(this.offsetHeight / 2) + (TBWindowMargin = d
 #TB_title{
 	background-color:#e8e8e8;
 	height:27px;
+	font-weight: bold;
 }
 
 #TB_ajaxContent{

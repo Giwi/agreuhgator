@@ -1,4 +1,4 @@
-package fr.giwi.agreugator.blog.dao;
+package fr.giwi.agreugator.rss.dao;
 
 import java.io.IOException;
 import java.net.URL;
@@ -153,6 +153,7 @@ public class RssEntryManager {
 		final DefaultHttpClient httpclient = HttPhelper.getHttpClient();
 		final URL url = new URL(urlStr);
 		final HttpHost target = new HttpHost(url.getHost(), url.getPort(), url.getProtocol());
+
 		HttpGet req = null;
 		if (!StringUtils.isBlank(url.getQuery())) {
 			req = new HttpGet(url.getPath() + "?" + url.getQuery());
@@ -160,6 +161,7 @@ public class RssEntryManager {
 			req = new HttpGet(url.getPath());
 		}
 		final HttpResponse rsp = httpclient.execute(target, req);
+
 		if (rsp.getStatusLine().getStatusCode() != 200 || !rsp.getHeaders("Content-Type")[0].getValue().startsWith("text/xml")) {
 			return false;
 		}
