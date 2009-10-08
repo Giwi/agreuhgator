@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import fr.giwi.agreugator.blog.bean.BlogEntry;
@@ -29,7 +30,7 @@ public class BlogEntryManager {
 		// mapping du résultat
 		while (rs.next()) {
 			be = new BlogEntry();
-			be.setDate(rs.getDate(1));
+			be.setDate(new Date(rs.getTime(1).getTime()));
 			be.setTitle(rs.getString(2));
 			be.setResume(rs.getString(3));
 			be.setContent(rs.getString(4));
@@ -64,7 +65,7 @@ public class BlogEntryManager {
 		// mapping du résultat
 		while (rs.next()) {
 			final BlogEntry be = new BlogEntry();
-			be.setDate(rs.getDate(1));
+			be.setDate(new Date(rs.getTime(1).getTime()));
 			be.setTitle(rs.getString(2));
 			be.setResume(rs.getString(3));
 			be.setContent(rs.getString(4));

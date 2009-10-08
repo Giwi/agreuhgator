@@ -56,12 +56,6 @@ BlogEntryManager bem = new BlogEntryManager();
 	</div>
 		<%  } %>
 		</td><td valign="top">
-		<%
-		if (session.getAttribute("user") == null) {
-		%>
-			<div class="search_box"><jsp:include page="login.jsp"></jsp:include></div>
-		<%
-		} %>
 		<div class="news_icon"><img src="images/type1.png" alt="" /></div><h3>ChangeLog</h3>
 		<br />
 		<% List<BlogEntry> listCL =  bem.getBlogEntries(1, Constantes.TYPE_CHANGE_LOG); 
