@@ -8,9 +8,11 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.StaleReaderException;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.index.TermDocs;
 import org.apache.lucene.index.TermEnum;
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.LockObtainFailedException;
 
 import fr.giwi.agreugator.constantes.Constantes;
@@ -25,7 +27,6 @@ public class LuceneHelper {
 			final TermEnum uidIter = reader.terms(new Term(Constantes.UUID, ""));
 			for (final RssDocWrapper rssDoc : rssContent) {
 				final String uid = rssDoc.getUuId();
-				final TermDocs docs = reader.termDocs(new Term(Constantes.UUID, uid));
 				if (uidIter.term() != null && uidIter.term().field() == Constantes.UUID && uidIter.term().text().compareTo(uid) == 0) {
 					uidIter.next(); // keep matching docs
 				} else { // add new docs
@@ -48,6 +49,17 @@ public class LuceneHelper {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+	}
+
+	public static void purgeIndex() throws StaleReaderException, CorruptIndexException, LockObtainFailedException, IOException {
+		final Directory directory = FSDirectory.getDirectory(Constantes.LucenePath);
+		final IndexReader reader = IndexReader.open(directory, false);
+		for (int i = 0; i < reader.maxDoc(); i++) {
+			reader.deleteDocument(i);
+		}
+		reader.close();
+		directory.close();
 
 	}
 }

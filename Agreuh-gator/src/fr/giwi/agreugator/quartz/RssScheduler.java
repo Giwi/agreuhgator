@@ -18,6 +18,7 @@ public class RssScheduler implements Job {
 	public void execute(final JobExecutionContext arg0) throws JobExecutionException {
 		System.out.println("Execution du checkout des flux");
 		try {
+			LuceneHelper.purgeIndex();
 			LuceneHelper.index(RSSHelper.getRSSContent());
 		} catch (final IllegalArgumentException e) {
 			// TODO Auto-generated catch block

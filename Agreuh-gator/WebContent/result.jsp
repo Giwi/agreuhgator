@@ -2,18 +2,18 @@
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
-<%@page import="org.apache.lucene.search.Hits"%>
 <%@page import="java.util.Iterator"%>
-<%@page import="org.apache.lucene.search.Hit"%>
 <%@page import="fr.giwi.agreugator.constantes.Constantes"%>
 <%@page import="fr.giwi.agreugator.helpers.StringHelper"%>
 <%@page import="org.apache.commons.lang.StringEscapeUtils"%>
-<%@page import="fr.giwi.agreugator.helpers.Base64Helper"%><html>
+<%@page import="fr.giwi.agreugator.helpers.Base64Helper"%>
+<%@page import="java.util.List"%>
+<%@page import="org.apache.lucene.document.Document"%><html>
 <head>
 <%
-	Hits hits = (Hits) request.getAttribute("Hits");
-	String query = (String) request.getAttribute("queryString");
-	Iterator<Hit> hitIt = hits.iterator();
+List<Document> hits = ( List<Document>) request.getAttribute("Hits");
+String query = (String) request.getAttribute("queryString");
+	
 %>
 <title><%=application.getInitParameter("title")%> : Résultats</title>
 <jsp:include page="common/meta.jsp" />
@@ -56,56 +56,64 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
+<div id="main_container">
 <jsp:include page="common/header.jsp" />
-<div id="page"><!-- start content -->
-	<div id="content">
+	<div id="main_content">
+    	<div id="left_content">
+			<jsp:include page="common/sidebar.jsp" />
+		</div><!--end of left content-->
+		
+    	<div id="right_content">
+<jsp:include page="common/messages.jsp" />
+<div class="products_box">
 		<h2>
 			<a	href="<%=request.getContextPath()%>/rss?query=<%=Base64Helper.encodeString(query)%>" target="_blank">
 	 			<img src="<%=request.getContextPath()%>/images/rss.png" border="0" />
 	 		</a> 
 	 		Résultats
 	 	</h2>
+	 	
 	 	<div id="Pagination" class="pagination"></div>
 		<br style="clear:both;" />
 		<div id="Searchresult">
 			This content will be replaced when pagination inits.
 		</div>
 		<div id="hiddenresult" style="display:none;">
- 		<% 	if (hits.length() == 0) { %><div class="result">Nada !</div><%	}
- 		while (hitIt.hasNext()) {
-			Hit hit = hitIt.next();	%>
+ 		<% 	if (hits.isEmpty()) { %><div class="result">Nada !</div><%	}
+ 		for(Document doc : hits) {
+			%>
 			<div class="result">
-				<div class="post">
-					<h2 class="title">
-						<a href="<%=hit.getDocument().getField(Constantes.ItemLink).stringValue()%>">
-							<%=StringHelper.colorize(hit.getDocument().getField(Constantes.ItemTitle).stringValue(), query)%>
+		 <h3>
+						<a href="<%=doc.getField(Constantes.ItemLink).stringValue()%>">
+							<%=StringHelper.colorize(doc.getField(Constantes.ItemTitle).stringValue(), query)%>
 						</a>
-					</h2>
-					<p class="meta"><small>Score : <%= hit.getScore() %> / 
-					Le <%=hit.getDocument().getField(Constantes.PubDate).stringValue()%>
-					</small></p>
+					</h3>
+					<p class="small">
+					Le <%=doc.getField(Constantes.PubDate).stringValue()%>
+					</p>
 					
-					<div class="entry">
-					<% if(hit.getDocument().getField(Constantes.ItemDescHTML) != null) { %>
-						<p><%=StringHelper.colorize(StringEscapeUtils.unescapeHtml(hit.getDocument().getField(Constantes.ItemDescHTML).stringValue()), query)%></p>
-						<% } %>
-						<p class="meta"><small>Provient du flux : <a href="<%=hit.getDocument().getField(Constantes.Link).stringValue()%>"><%=StringHelper.colorize(hit.getDocument().getField(Constantes.Title).stringValue(), query)%></a>
-						<% if(hit.getDocument().getField(Constantes.Copyright) != null && !"".equals(hit.getDocument().getField(Constantes.Copyright).stringValue())) { %>
-						&copy; <%=  hit.getDocument().getField(Constantes.Copyright).stringValue() %>
-						<% } %>
-						 <% if(hit.getDocument().getField(Constantes.Author) != null && !"".equals(hit.getDocument().getField(Constantes.Author).stringValue())) { %>
-						par <%=  hit.getDocument().getField(Constantes.Author).stringValue() %>
-						<% } %>
-						</small></p>
-					</div>
 					
+					<% if(doc.getField(Constantes.ItemDescHTML) != null) { %>
+						<p><%=StringHelper.colorize(StringEscapeUtils.unescapeHtml(doc.getField(Constantes.ItemDescHTML).stringValue()), query)%></p>
+						<% } %>
+						<p class="small">Provient du flux : <a href="<%=doc.getField(Constantes.Link).stringValue()%>"><%=StringHelper.colorize(doc.getField(Constantes.Title).stringValue(), query)%></a>
+						<% if(doc.getField(Constantes.Copyright) != null && !"".equals(doc.getField(Constantes.Copyright).stringValue())) { %>
+						&copy; <%=  doc.getField(Constantes.Copyright).stringValue() %>
+						<% } %>
+						 <% if(doc.getField(Constantes.Author) != null && !"".equals(doc.getField(Constantes.Author).stringValue())) { %>
+						par <%=  doc.getField(Constantes.Author).stringValue() %>
+						<% } %>
+						</p>
 				</div>
-			</div>
 		<%	} %>
 		</div>
 	</div>
-	<jsp:include page="common/sidebar.jsp" />
-</div>
+	
+	<div style="clear:both;"></div></div>
+    <!--end of right content-->
+    </div>
+    
 <jsp:include page="common/footer.jsp" />
+</div>
 </body>
 </html>
