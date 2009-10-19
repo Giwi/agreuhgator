@@ -3,7 +3,6 @@
 <%@page import="fr.giwi.agreugator.blog.dao.BlogEntryManager"%>
 <%@page import="fr.giwi.agreugator.blog.bean.BlogEntry"%>
 <%@page import="fr.giwi.agreugator.constantes.Constantes"%>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="h" %>
 
 
 <%@page import="java.net.URL"%>
