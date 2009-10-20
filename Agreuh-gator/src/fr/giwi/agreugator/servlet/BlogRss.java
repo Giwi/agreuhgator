@@ -1,7 +1,6 @@
 package fr.giwi.agreugator.servlet;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +8,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.sourceforge.pbeans.StoreException;
 
 import com.sun.syndication.feed.synd.SyndContent;
 import com.sun.syndication.feed.synd.SyndContentImpl;
@@ -20,6 +21,7 @@ import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedOutput;
 
 import fr.giwi.agreugator.blog.bean.BlogEntry;
+import fr.giwi.agreugator.blog.dao.BlogEntryManageable;
 import fr.giwi.agreugator.blog.dao.BlogEntryManager;
 import fr.giwi.agreugator.constantes.Constantes;
 
@@ -44,7 +46,7 @@ public class BlogRss extends HttpServlet {
 		SyndFeed feed = null;
 		try {
 			feed = getFeed(DEFAULT_FEED_TYPE, request);
-		} catch (final SQLException e1) {
+		} catch (final StoreException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
@@ -59,14 +61,14 @@ public class BlogRss extends HttpServlet {
 		}
 	}
 
-	private SyndFeed getFeed(final String defaultFeedType, final HttpServletRequest request) throws SQLException {
+	private SyndFeed getFeed(final String defaultFeedType, final HttpServletRequest request) throws StoreException {
 		final SyndFeed feed = new SyndFeedImpl();
 
 		feed.setTitle("Agreuh Gator : Les niouzes");
 		feed.setLink(request.getRequestURL() + "?" + request.getQueryString());
 		feed.setDescription("Agreuh Gator : purée de RSS");
 		final List<SyndEntry> entries = new ArrayList<SyndEntry>();
-		final BlogEntryManager bem = new BlogEntryManager();
+		final BlogEntryManageable bem = new BlogEntryManager();
 		final List<BlogEntry> list = bem.getBlogEntries(5, Constantes.TYPE_BLOG);
 		for (final BlogEntry be : list) {
 

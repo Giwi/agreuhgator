@@ -3,6 +3,10 @@ package fr.giwi.agreugator.blog.bean;
 import java.io.Serializable;
 import java.util.Date;
 
+import net.sourceforge.pbeans.annotations.PersistentClass;
+import net.sourceforge.pbeans.annotations.PropertyIndex;
+
+@PersistentClass(table = "BlogEntry", indexes = @PropertyIndex(unique = true, propertyNames = "id"), autoIncrement = true, idField = "InternalUID", deleteFields = true, userManaged = false)
 public class BlogEntry implements Serializable {
 	/**
 	 * 

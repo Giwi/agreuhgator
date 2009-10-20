@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 
+import fr.giwi.agreugator.rss.dao.RssEntryManageable;
 import fr.giwi.agreugator.rss.dao.RssEntryManager;
 
 /**
@@ -35,7 +36,7 @@ public class DelRss extends HttpServlet {
 			rd.forward(request, response);
 			return;
 		}
-		final RssEntryManager rssem = new RssEntryManager();
+		final RssEntryManageable rssem = new RssEntryManager();
 		try {
 			rssem.deleteRssEntry(Integer.parseInt(id));
 		} catch (final Exception e) {

@@ -1,7 +1,6 @@
 package fr.giwi.agreugator.servlet;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,9 +8,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sourceforge.pbeans.StoreException;
+
 import org.apache.commons.lang.StringUtils;
 
 import fr.giwi.agreugator.blog.bean.BlogUser;
+import fr.giwi.agreugator.blog.dao.BlogUserManageable;
 import fr.giwi.agreugator.blog.dao.UserManager;
 
 /**
@@ -42,10 +44,10 @@ public class Login extends HttpServlet {
 			rd.forward(request, response);
 			return;
 		}
-		final UserManager um = new UserManager();
+		final BlogUserManageable um = new UserManager();
 		try {
 			bu = um.getUser(login);
-		} catch (final SQLException e) {
+		} catch (final StoreException e) {
 			request.setAttribute("erreoMess", "Erreur de connexion à la base");
 			final RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
 			rd.forward(request, response);
@@ -57,7 +59,7 @@ public class Login extends HttpServlet {
 			rd.forward(request, response);
 			return;
 		}
-		if (!mdp.equals(bu.getPassword())) {
+		if (!bu.isPasswordMatch(mdp)) {
 			request.setAttribute("erreoMess", "Le mot de passe n'est pas bon");
 			final RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
 			rd.forward(request, response);

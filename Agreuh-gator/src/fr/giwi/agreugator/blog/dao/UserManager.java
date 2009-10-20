@@ -1,138 +1,91 @@
 package fr.giwi.agreugator.blog.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.jws.WebService;
+
+import net.sourceforge.pbeans.StoreException;
+import net.sourceforge.pbeans.data.ResultsIterator;
 import fr.giwi.agreugator.blog.bean.BlogUser;
-import fr.giwi.agreugator.sql.dao.AbstractSQLDAO;
+import fr.giwi.agreugator.sql.dao.PBeansSQLDao;
 
-public class UserManager {
+@WebService(endpointInterface = "fr.giwi.agreugator.blog.dao.BlogUserManageable", serviceName = "BlogUserManager")
+public class UserManager implements BlogUserManageable {
 
-	/**
-	 * @param id
-	 * @return
-	 * @throws SQLException
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.giwi.agreugator.blog.dao.BlogUserManageable#getUser(int)
 	 */
-	public BlogUser getUser(final int id) throws SQLException {
-		BlogUser bu = null;
-		final Connection conn = AbstractSQLDAO.beginTransaction(false);
-		final String query = "SELECT id, login, password FROM blog_users where id = ?";
-		final PreparedStatement stmt = conn.prepareStatement(query);
-		stmt.setInt(1, id);
-		final ResultSet rs = stmt.executeQuery();
-
-		// mapping du résultat
-		while (rs.next()) {
-			bu = new BlogUser();
-			bu.setId(rs.getInt(1));
-			bu.setLogin(rs.getString(2));
-			bu.setPassword(rs.getString(3));
-		}
-		AbstractSQLDAO.commit(conn);
-		AbstractSQLDAO.release(conn);
-		return bu;
+	public BlogUser getUserFromId(final int id) throws StoreException {
+		return (BlogUser) PBeansSQLDao.getInstance().getStore().selectSingle(BlogUser.class, "id", id);
 	}
 
-	/**
-	 * @param login
-	 * @return
-	 * @throws SQLException
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.giwi.agreugator.blog.dao.BlogUserManageable#getUser(java.lang.String)
 	 */
-	public BlogUser getUser(final String login) throws SQLException {
-		BlogUser bu = null;
-		final Connection conn = AbstractSQLDAO.beginTransaction(false);
-		final String query = "SELECT id, login, password FROM blog_users where login = ?";
-		final PreparedStatement stmt = conn.prepareStatement(query);
-		stmt.setString(1, login);
-		final ResultSet rs = stmt.executeQuery();
-
-		// mapping du résultat
-		while (rs.next()) {
-			bu = new BlogUser();
-			bu.setId(rs.getInt(1));
-			bu.setLogin(rs.getString(2));
-			bu.setPassword(rs.getString(3));
-		}
-		AbstractSQLDAO.commit(conn);
-		AbstractSQLDAO.release(conn);
-		return bu;
+	public BlogUser getUser(final String login) throws StoreException {
+		return (BlogUser) PBeansSQLDao.getInstance().getStore().selectSingle(BlogUser.class, "login", login);
 	}
 
-	/**
-	 * @param limit
-	 * @return
-	 * @throws SQLException
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.giwi.agreugator.blog.dao.BlogUserManageable#getUsers(int)
 	 */
-	public List<BlogUser> getUsers(final int limit) throws SQLException {
+	@SuppressWarnings("unchecked")
+	public List<BlogUser> getUsers(final int limit) throws StoreException {
 		final List<BlogUser> blogUsers = new ArrayList<BlogUser>();
-		final Connection conn = AbstractSQLDAO.beginTransaction(false);
-		String query = "SELECT id, login FROM blog_users";
-		if (limit > 0) {
-			query += " limit " + limit;
+		final ResultsIterator<BlogUser> ri = PBeansSQLDao.getInstance().getStore().select(BlogUser.class);
+		try {
+			while (ri.hasNext()) {
+				blogUsers.add(ri.next());
+			}
+			if (limit > 0 && limit < blogUsers.size()) {
+				return blogUsers.subList(0, limit);
+			}
+		} finally {
+			ri.close();
 		}
-		final PreparedStatement stmt = conn.prepareStatement(query);
-
-		final ResultSet rs = stmt.executeQuery();
-
-		// mapping du résultat
-		while (rs.next()) {
-			final BlogUser bu = new BlogUser();
-			bu.setId(rs.getInt(1));
-			bu.setLogin(rs.getString(2));
-			blogUsers.add(bu);
-		}
-		AbstractSQLDAO.commit(conn);
-		AbstractSQLDAO.release(conn);
 		return blogUsers;
 	}
 
-	/**
-	 * @param be
-	 * @throws SQLException
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.giwi.agreugator.blog.dao.BlogUserManageable#addBlogUser(fr.giwi.agreugator
+	 * .blog.bean.BlogUser)
 	 */
-	public void addBlogUser(final BlogUser be) throws SQLException {
-		final Connection conn = AbstractSQLDAO.beginTransaction(false);
-		final String query = "INSERT into blog_users set (login = ?, password = ?)";
-		final PreparedStatement stmt = conn.prepareStatement(query);
-		stmt.setString(1, be.getLogin());
-		stmt.setString(2, be.getPassword());
-		stmt.execute();
-		AbstractSQLDAO.commit(conn);
-		AbstractSQLDAO.release(conn);
+	public void addBlogUser(final BlogUser bu) throws StoreException {
+		PBeansSQLDao.getInstance().getStore().insert(bu);
 	}
 
-	/**
-	 * @param id
-	 * @throws SQLException
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.giwi.agreugator.blog.dao.BlogUserManageable#deleteBlogUser(int)
 	 */
-	public void deleteBlogUser(final int id) throws SQLException {
-		final Connection conn = AbstractSQLDAO.beginTransaction(false);
-		final String query = "Delete from blog_users where id = ?";
-		final PreparedStatement stmt = conn.prepareStatement(query);
-		stmt.setInt(1, id);
-		stmt.execute();
-		AbstractSQLDAO.commit(conn);
-		AbstractSQLDAO.release(conn);
+	public void deleteBlogUser(final int id) throws StoreException {
+		final Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", id);
+		PBeansSQLDao.getInstance().getStore().delete(BlogUser.class, params);
 	}
 
-	/**
-	 * @param be
-	 * @param id
-	 * @throws SQLException
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * fr.giwi.agreugator.blog.dao.BlogUserManageable#updateBlogUser(fr.giwi
+	 * .agreugator.blog.bean.BlogUser, int)
 	 */
-	public void updateBlogUser(final BlogUser be, final int id) throws SQLException {
-		final Connection conn = AbstractSQLDAO.beginTransaction(false);
-		final String query = "update  blog_users set (login = ?, password= ?) where id= ?";
-		final PreparedStatement stmt = conn.prepareStatement(query);
-		stmt.setString(1, be.getLogin());
-		stmt.setString(2, be.getPassword());
-		stmt.setInt(3, id);
-		stmt.execute();
-		AbstractSQLDAO.commit(conn);
-		AbstractSQLDAO.release(conn);
+	public void updateBlogUser(final BlogUser bu, final int id) throws StoreException {
+		PBeansSQLDao.getInstance().getStore().save(bu);
 	}
 }

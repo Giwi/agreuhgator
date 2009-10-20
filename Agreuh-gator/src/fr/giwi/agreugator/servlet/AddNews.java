@@ -1,7 +1,6 @@
 package fr.giwi.agreugator.servlet;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
@@ -10,9 +9,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sourceforge.pbeans.StoreException;
+
 import org.apache.commons.lang.StringUtils;
 
 import fr.giwi.agreugator.blog.bean.BlogEntry;
+import fr.giwi.agreugator.blog.dao.BlogEntryManageable;
 import fr.giwi.agreugator.blog.dao.BlogEntryManager;
 
 /**
@@ -46,7 +48,7 @@ public class AddNews extends HttpServlet {
 			rd.forward(request, response);
 			return;
 		}
-		final BlogEntryManager bem = new BlogEntryManager();
+		final BlogEntryManageable bem = new BlogEntryManager();
 		final BlogEntry be = new BlogEntry();
 		be.setTitle(title);
 		be.setResume(resume == null ? "" : resume);
@@ -56,7 +58,7 @@ public class AddNews extends HttpServlet {
 		try {
 			bem.addBlogEntry(be);
 			request.setAttribute("okMess", "Niouze enregistrée : " + be.getTitle());
-		} catch (final SQLException e) {
+		} catch (final StoreException e) {
 			request.setAttribute("erreoMess", "Erreur de connexion à la base");
 			final RequestDispatcher rd = request.getRequestDispatcher("addnews.jsp");
 			rd.forward(request, response);

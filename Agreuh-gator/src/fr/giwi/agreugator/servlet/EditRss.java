@@ -1,7 +1,6 @@
 package fr.giwi.agreugator.servlet;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
@@ -10,9 +9,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sourceforge.pbeans.StoreException;
+
 import org.apache.commons.lang.StringUtils;
 
 import fr.giwi.agreugator.rss.bean.RSSEntry;
+import fr.giwi.agreugator.rss.dao.RssEntryManageable;
 import fr.giwi.agreugator.rss.dao.RssEntryManager;
 
 /**
@@ -38,7 +40,7 @@ public class EditRss extends HttpServlet {
 			rd.forward(request, response);
 			return;
 		}
-		final RssEntryManager rssem = new RssEntryManager();
+		final RssEntryManageable rssem = new RssEntryManager();
 		RSSEntry re = null;
 		try {
 			re = rssem.getEntry(Integer.parseInt(id));
@@ -84,11 +86,11 @@ public class EditRss extends HttpServlet {
 			rd.forward(request, response);
 			return;
 		}
-		final RssEntryManager rssem = new RssEntryManager();
+		final RssEntryManageable rssem = new RssEntryManager();
 
 		try {
 			rssem.updateRssEntry(re, Integer.parseInt(id));
-		} catch (final SQLException e) {
+		} catch (final StoreException e) {
 			request.setAttribute("erreoMess", "Erreur de connexion à la base");
 			final RequestDispatcher rd = request.getRequestDispatcher("editnews.jsp");
 			rd.forward(request, response);

@@ -6,6 +6,8 @@ import java.util.Date;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import net.sourceforge.pbeans.StoreException;
+
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -13,8 +15,13 @@ import org.quartz.SchedulerFactory;
 import org.quartz.Trigger;
 import org.quartz.TriggerUtils;
 
+import fr.giwi.agreugator.blog.bean.BlogUser;
+import fr.giwi.agreugator.blog.dao.BlogUserManageable;
+import fr.giwi.agreugator.blog.dao.UserManager;
 import fr.giwi.agreugator.constantes.Constantes;
 import fr.giwi.agreugator.quartz.RssScheduler;
+import fr.giwi.agreugator.sql.dao.PBeansSQLDao;
+import fr.giwi.agreugator.webService.Server;
 
 /**
  * Application Lifecycle Listener implementation class ContextListener
@@ -27,11 +34,23 @@ public class ContextListener implements ServletContextListener {
 	 */
 	public void contextInitialized(final ServletContextEvent servletContext) {
 		Constantes.LucenePath = servletContext.getServletContext().getRealPath(".") + "/Lucene/Indexes";
+		try {
+			PBeansSQLDao.getInstance().init(servletContext.getServletContext(), "mystore");
+			final BlogUserManageable um = new UserManager();
+			if (um.getUsers(0).isEmpty()) {
+				final BlogUser admin = new BlogUser();
+				admin.setLogin("admin");
+				admin.setPassword("admin");
+				um.addBlogUser(admin);
+			}
+		} catch (final StoreException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		final File root = new File(Constantes.LucenePath);
 		if (!root.exists()) {
 			root.mkdirs();
 		}
-		System.out.println(root.getAbsolutePath());
 		try {
 			final SchedulerFactory schedFact = new org.quartz.impl.StdSchedulerFactory();
 
@@ -51,7 +70,12 @@ public class ContextListener implements ServletContextListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// LuceneHelper.index(RSSHelper.getRSSContent());
+		try {
+			final Server webServer = new Server(servletContext.getServletContext().getContextPath());
+		} catch (final Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**

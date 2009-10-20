@@ -12,6 +12,7 @@ import org.apache.commons.lang.StringUtils;
 
 import fr.giwi.agreugator.helpers.RSSHelper;
 import fr.giwi.agreugator.rss.bean.RSSEntry;
+import fr.giwi.agreugator.rss.dao.RssEntryManageable;
 import fr.giwi.agreugator.rss.dao.RssEntryManager;
 
 /**
@@ -38,7 +39,7 @@ public class AddRss extends HttpServlet {
 			return;
 
 		}
-		final RssEntryManager rssem = new RssEntryManager();
+		final RssEntryManageable rssem = new RssEntryManager();
 		try {
 			if (!rssem.isValidFeed(urlStr)) {
 				request.setAttribute("erreoMess", "Url foireuse");

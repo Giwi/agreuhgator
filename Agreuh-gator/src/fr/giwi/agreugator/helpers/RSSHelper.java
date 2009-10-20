@@ -2,10 +2,11 @@ package fr.giwi.agreugator.helpers;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import net.sourceforge.pbeans.StoreException;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -23,7 +24,7 @@ import fr.giwi.agreugator.wrapper.RssDocWrapper;
 
 public class RSSHelper {
 
-	public static List<RssDocWrapper> getRSSContent() throws SQLException, IllegalArgumentException, FeedException, IOException {
+	public static List<RssDocWrapper> getRSSContent() throws IllegalArgumentException, FeedException, IOException, StoreException {
 		final List<RssDocWrapper> listOfDocs = new ArrayList<RssDocWrapper>();
 
 		for (final RSSEntry rssFeed : new RssEntryManager().getRssEntries(0)) {

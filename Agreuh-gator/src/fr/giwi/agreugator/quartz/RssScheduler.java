@@ -1,7 +1,8 @@
 package fr.giwi.agreugator.quartz;
 
 import java.io.IOException;
-import java.sql.SQLException;
+
+import net.sourceforge.pbeans.StoreException;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -23,13 +24,13 @@ public class RssScheduler implements Job {
 		} catch (final IllegalArgumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (final SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (final FeedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (final IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (final StoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
