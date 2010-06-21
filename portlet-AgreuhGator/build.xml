@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="deploy" name="portlet-agreuhGator">
+	<property file="build.properties" />
+	<property environment="env" />
+	<property name="build.home" value="${basedir}/build" />
+	<property name="dist.home" value="${basedir}/dist" />
+	<property name="debuglevel" value="source,lines,vars" />
+	<property name="target" value="1.6" />
+	<property name="source" value="1.6" />
+
+	<property name="lib.home" value="${basedir}/WebContent/WEB-INF/lib" />
+	<path id="compile.classpath">
+		<fileset dir="${catalina.home}/lib/ext">
+			<include name="*.jar" />
+		</fileset> 
+		<!--
+		<fileset dir="${catalina.home}/webapps/ROOT/shared">
+					<include name="*.jar" />
+				</fileset>-->
+		<fileset dir="${catalina.home}/webapps/ROOT/WEB-INF/lib">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${catalina.home}/lib">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${lib.home}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	<target name="init">
+		<mkdir dir="${build.home}/WebContent/WEB-INF/classes" />
+		<mkdir dir="${dist.home}" />
+		<copy includeemptydirs="false" todir="${build.home}/WebContent/WEB-INF/classes">
+			<fileset dir="src" excludes="**/*.launch, **/*.java">
+				<exclude name="**/${app.env}-*" />
+				<!-- excluding  here some more typical target environments pattern -->
+				<exclude name="**/PROD-*" />
+				<exclude name="**/REC-*" />
+				<exclude name="**/DEV-*" />
+				<exclude name="**/INT-*" />
+			</fileset>
+		</copy>
+
+	</target>
+	<target name="clean">
+		<delete dir="${build.home}" />
+	</target>
+
+	<target depends="init" name="build">
+
+		<echo message="${ant.project.name}: ${ant.file}" />
+
+		<copy todir="${build.home}/WebContent/" overwrite="true" preservelastmodified="true">
+			<fileset dir="WebContent" casesensitive="yes">
+				<exclude name="**/${app.env}-*" />
+				<!-- excluding  here some more typical target environments pattern -->
+				<exclude name="**/PROD-*" />
+				<exclude name="**/REC-*" />
+				<exclude name="**/DEV-*" />
+				<exclude name="**/INT-*" />
+			</fileset>
+		</copy>
+		<copy todir="${build.home}/WebContent/WEB-INF/classes/" overwrite="true" preservelastmodified="true">
+
+			<fileset dir="src/resources" casesensitive="yes">
+				<exclude name="**/${app.env}-*" />
+				<!-- excluding  here some more typical target environments pattern -->
+				<exclude name="**/PROD-*" />
+				<exclude name="**/REC-*" />
+				<exclude name="**/DEV-*" />
+				<exclude name="**/INT-*" />
+			</fileset>
+		</copy>
+		<copy todir="${build.home}/WebContent/WEB-INF/classes">
+			<fileset dir="src" excludes="**/*.java">
+				<!-- excluding the environment pattern matching files -->
+				<exclude name="**/${app.env}-*" />
+				<!-- excluding  here some more typical target environments pattern -->
+				<exclude name="**/PROD-*" />
+				<exclude name="**/REC-*" />
+				<exclude name="**/DEV-*" />
+				<exclude name="**/INT-*" />
+			</fileset>
+		</copy>
+		<copy todir="${build.home}/WebContent/WEB-INF/classes" overwrite="true" preservelastmodified="true">
+			<fileset dir="src" casesensitive="yes" />
+			<mapper type="regexp" from="^(.*)${app.env}-(.*)$$" to="\1\2" />
+		</copy>
+		<copy todir="${build.home}/WebContent/WEB-INF/" overwrite="true" preservelastmodified="true">
+			<fileset dir="WebContent/WEB-INF/" casesensitive="yes" />
+			<mapper type="regexp" from="^(.*)${app.env}-(.*)$$" to="\1\2" />
+		</copy>
+		
+		<copy todir="${build.home}/WebContent/WEB-INF/classes" overwrite="true" preservelastmodified="true">
+					<fileset dir="src/resources" casesensitive="yes" />
+					<mapper type="regexp" from="^(.*)${app.env}-(.*)$$" to="\1\2" />
+				</copy>
+		<javac debug="true" debuglevel="${debuglevel}" destdir="${build.home}/WebContent/WEB-INF/classes" source="${source}" target="${target}">
+			<src path="src" />
+			<classpath refid="compile.classpath" />
+		</javac>
+
+	</target>
+	<target name="dist" depends="build">
+		<jar jarfile="${dist.home}/${app.name}.war" basedir="${build.home}/WebContent" />
+	</target>
+
+	<target name="deploy" depends="dist">
+		
+		<copy todir="${deploy.dir}" file="${dist.home}/${app.name}.war" />
+		<!--
+		<copy todir="${env.HOMEDRIVE}${env.HOMEPATH}/${deploy.dir}" file="${dist.home}/${app.name}.war" />
+			-->
+	</target>
+</project>

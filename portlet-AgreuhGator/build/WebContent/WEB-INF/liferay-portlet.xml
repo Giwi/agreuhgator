@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE liferay-portlet-app PUBLIC "-//Liferay//DTD Portlet Application 5.1.0//EN" "http://www.liferay.com/dtd/liferay-portlet-app_5_1_0.dtd">
+
+<liferay-portlet-app>
+
+	<portlet>
+		<portlet-name>agreugator1</portlet-name>
+		<icon>/images/rss2.png</icon>
+		<use-default-template>true</use-default-template>
+		<restore-current-view>true</restore-current-view>
+		<instanceable>true</instanceable>
+		<private-request-attributes>false</private-request-attributes>
+		<ajaxable>true</ajaxable>
+		<header-portal-javascript>/html/js/jquery/ui.accordion.js</header-portal-javascript>
+		<add-default-resource>true</add-default-resource>
+	</portlet>
+	<portlet>
+		<portlet-name>agreugator2</portlet-name>
+		<icon>/images/rss2.png</icon>
+		<use-default-template>true</use-default-template>
+		<restore-current-view>true</restore-current-view>
+		<instanceable>false</instanceable>
+		<private-request-attributes>false</private-request-attributes>
+		<ajaxable>true</ajaxable>
+		<header-portal-javascript>/html/js/jquery/ui.accordion.js</header-portal-javascript>
+	</portlet>
+	<role-mapper>
+		<role-name>administrator</role-name>
+		<role-link>Administrator</role-link>
+	</role-mapper>
+	<role-mapper>
+		<role-name>guest</role-name>
+		<role-link>Guest</role-link>
+	</role-mapper>
+	<role-mapper>
+		<role-name>power-user</role-name>
+		<role-link>Power User</role-link>
+	</role-mapper>
+	<role-mapper>
+		<role-name>user</role-name>
+		<role-link>User</role-link>
+	</role-mapper>
+
+</liferay-portlet-app>
